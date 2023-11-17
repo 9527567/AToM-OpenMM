@@ -1,3 +1,4 @@
+#! python
 # Usage: python make_atm_rbfe_system_frompdb.py <options>
 # Emilio Gallicchio, 5/2023 adapted from code by Bill Swope, 11/2021
 
@@ -9,30 +10,23 @@
 
 # following for argument passing tools
 import argparse
-
+# System calls - to invoke sdfTagTool from the python code
+import os
 # following used to generate a subdirectory named after the ligand
 # for the output files
 import subprocess
-
+import sys
 # following for date and time
 from datetime import datetime
-
+from sys import stdout
 # following for timing code components
 from time import time
 
 # OpenMM components
-from openmm import XmlSerializer
-from openmm.app import AmberPrmtopFile, AmberInpcrdFile, PDBFile
-from openmm.app import PME, HBonds
-
-from openmm.unit import Quantity
-from openmm.unit import angstrom, nanometer, nanometers, picoseconds, amu
-from openmm import unit
-
-from sys import stdout
-
-# System calls - to invoke sdfTagTool from the python code
-import os, sys
+from openmm import XmlSerializer, unit
+from openmm.app import PME, AmberInpcrdFile, AmberPrmtopFile, HBonds, PDBFile
+from openmm.unit import (Quantity, amu, angstrom, nanometer, nanometers,
+                         picoseconds)
 
 print('Generate ATM OpenMM System from Amber files (prmtop and inpcrd)')
 today = datetime.today()

@@ -1,3 +1,4 @@
+#! python
 # Usage: python make_atm_rbfe_system_frompdb.py <options>
 # Emilio Gallicchio, 5/2023 adapted from code by Bill Swope, 11/2021
 
@@ -7,42 +8,31 @@
 #                                          #
 ############################################
 
-import os, sys
-import numpy as np
-from datetime import datetime
-from time import time
-
 # following for argument passing tools
 import argparse
+# System calls - to invoke sdfTagTool from the python code
+import os
+import sys
+from datetime import datetime
+from sys import stdout
+from time import time
 
-# OpenMM components
-from openmm import XmlSerializer
-from openmm import Vec3
-from openmm.app import PDBReporter, StateDataReporter, PDBFile
-from openmm.app import ForceField, Modeller
-from openmm.app import PME, HBonds
-
+import numpy as np
 # OpenFF components from the toolkit
 from openff.toolkit.topology import Molecule
-
-from openmm.unit import Quantity
-from openmm.unit import angstrom, nanometer, nanometers, picoseconds, amu
-from openmm import unit
-
-from sys import stdout
-
-# System calls - to invoke sdfTagTool from the python code
-import os, sys
-
+# OpenFF components for SystemGenerator (for input entire ssytem in pdb file)
+# OpenMM components
+from openmm import Vec3, XmlSerializer, app, unit
+from openmm.app import (PME, ForceField, HBonds, Modeller, PDBFile,
+                        PDBReporter, StateDataReporter)
+from openmm.unit import (Quantity, amu, angstrom, nanometer, nanometers,
+                         picoseconds)
 # OpenFF and OpenMM components for ligand force field parameters
-from openmmforcefields.generators import SMIRNOFFTemplateGenerator
-from openff.toolkit.topology import Molecule
+from openmmforcefields.generators import (SMIRNOFFTemplateGenerator,
+                                          SystemGenerator)
 
 #from pdbfixer import PDBFixer
 
-# OpenFF components for SystemGenerator (for input entire ssytem in pdb file)
-from openmm import app
-from openmmforcefields.generators import SystemGenerator
 
 def boundingBoxSizes(positions):
     xmin = positions[0][0]

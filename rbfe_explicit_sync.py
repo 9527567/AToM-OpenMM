@@ -1,4 +1,6 @@
+#! python
 import sys
+
 from sync.atm import openmm_job_AmberRBFE
 
 if __name__ == '__main__':

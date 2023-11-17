@@ -1,25 +1,25 @@
-from __future__ import print_function
-from __future__ import division
-import sys
-import time
+#! python
+from __future__ import division, print_function
+
+import logging
 import math
 import random
-import logging
-import signal
 import shutil
-import random
+import signal
+import sys
+import time
+from datetime import datetime
 from sys import stdout
 
-from simtk import openmm as mm
-from simtk.openmm.app import *
-from simtk.openmm import *
-from simtk.unit import *
-from datetime import datetime
-
-import logging
 from configobj import ConfigObj
+from simtk import openmm as mm
+from simtk.openmm import *
+from simtk.openmm.app import *
+from simtk.unit import *
+
 from ommsystem import *
 from utils.AtomUtils import AtomUtils
+
 
 class OMMSystemABFEnoATM(OMMSystemABFE):
     def create_system(self):

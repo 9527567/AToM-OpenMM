@@ -1,3 +1,4 @@
+#! python
 # Usage: python make_atm_rbfe_system_frompdb.py <options>
 # Emilio Gallicchio, 5/2023 adapted from code by Bill Swope, 11/2021
 
@@ -9,51 +10,38 @@
 
 # following for argument passing tools
 import argparse
-
+# System calls - to invoke sdfTagTool from the python code
+import os
 # following used to generate a subdirectory named after the ligand
 # for the output files
 import subprocess
-
+import sys
 # following for date and time
 from datetime import datetime
-
+from sys import stdout
 # following for timing code components
 from time import time
 
+from openff.toolkit.topology import Molecule
+# OpenFF components for SystemGenerator (for input entire ssytem in pdb file)
+# from simtk.openmm import Platform, MonteCarloBarostat, LangevinMiddleIntegrator
+# from simtk.openmm import Vec3
 # OpenMM components
 # from simtk.openmm.app import Modeller, ForceField, Simulation
 # from simtk.openmm.app import PDBReporter, StateDataReporter, PDBFile
 # from simtk.openmm.app import PME, HBonds
-from openmm import XmlSerializer
-from openmm.app import Modeller, ForceField, Simulation
-from openmm.app import PDBReporter, StateDataReporter, PDBFile
-from openmm.app import PME, HBonds
-
-# from simtk.openmm import Platform, MonteCarloBarostat, LangevinMiddleIntegrator
-# from simtk.openmm import Vec3
-from openmm import Platform, MonteCarloBarostat, LangevinMiddleIntegrator
-from openmm import Vec3
-
+from openmm import (LangevinMiddleIntegrator, MonteCarloBarostat, Platform,
+                    Vec3, XmlSerializer, app, unit)
+from openmm.app import (PME, ForceField, HBonds, Modeller, PDBFile,
+                        PDBReporter, Simulation, StateDataReporter)
 # from simtk.unit import Quantity, bar, kelvin
 # from simtk.unit import angstrom, nanometer, nanometers, picoseconds
 # from simtk import unit
-from openmm.unit import Quantity
-from openmm.unit import angstrom, nanometer, nanometers, picoseconds, amu
-from openmm import unit
-
-from sys import stdout
-
-# System calls - to invoke sdfTagTool from the python code
-import os, sys
-
+from openmm.unit import (Quantity, amu, angstrom, nanometer, nanometers,
+                         picoseconds)
 # OpenFF and OpenMM components for ligand force field parameters
-from openmmforcefields.generators import SMIRNOFFTemplateGenerator
-from openff.toolkit.topology import Molecule
-
-# OpenFF components for SystemGenerator (for input entire ssytem in pdb file)
-from openmm import app
-from openmmforcefields.generators import SystemGenerator
-
+from openmmforcefields.generators import (SMIRNOFFTemplateGenerator,
+                                          SystemGenerator)
 
 ############################################
 #                                          #
