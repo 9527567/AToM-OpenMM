@@ -1,15 +1,15 @@
-from __future__ import print_function
-from __future__ import division
-import os
-import re
-import random
-import math
+from __future__ import division, print_function
+
 import logging
+import math
+import os
+import random
+import re
 import signal
 
 import openmm as mm
-from openmm.app import *
 from openmm import *
+from openmm.app import *
 from openmm.unit import *
 
 from async_re import async_re
@@ -17,6 +17,7 @@ from local_openmm_transport import *
 from ommreplica import *
 from ommsystem import *
 from ommworker import *
+
 
 class openmm_job(async_re):
     def __init__(self, command_file, options):
@@ -271,7 +272,7 @@ class openmm_job_ATM(openmm_job):
         #list of temperatures
         if self.keywords.get('TEMPERATURES') is None:
             self._exit("TEMPERATURES needs to be specified")
-        self.temperatures = self.keywords.get('TEMPERATURES')
+        self.temperatures = self.keywords.get('TEMPERATURES').split()
 
         #flag to identify the intermediate states, typically the one at lambda=1/2
         self.intermediates = None
