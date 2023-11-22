@@ -225,7 +225,7 @@ class OMMSystemABFE(OMMSystem):
             r0 = cmtol * angstrom #radius of Vsite sphere
             ligoffset = self.keywords.get('LIGOFFSET')
             if ligoffset is not None:
-                ligoffset = [float(offset) for offset in ligoffset.split(',')]*angstrom
+                ligoffset = [float(offset) for offset in ligoffset]*angstrom
             self.vsiterestraintForce = self.atm_utils.addVsiteRestraintForceCMCM(lig_cm_particles = lig_atom_restr,
                                                                                  rcpt_cm_particles = rcpt_atom_restr,
                                                                                  kfcm = kf,
@@ -303,7 +303,7 @@ class OMMSystemABFE(OMMSystem):
         acore = float(self.keywords.get('ACORE'))
 
         if not (self.keywords.get('DISPLACEMENT') is None):
-            self.displ = [float(displ) for displ in self.keywords.get('DISPLACEMENT').split(',')]*angstrom
+            self.displ = [float(displ) for displ in self.keywords.get('DISPLACEMENT')]*angstrom
         else:
             msg = "Error: DISPLACEMENT is required"
             self._exit(msg)
@@ -399,7 +399,7 @@ class OMMSystemRBFE(OMMSystem):
     def set_displacement(self):
         #set displacements and offsets for ligand 1 and ligand 2
         if self.keywords.get('DISPLACEMENT') is not None:
-            self.displ = [float(displ) for displ in self.keywords.get('DISPLACEMENT').split(',')]*angstrom
+            self.displ = [float(displ) for displ in self.keywords.get('DISPLACEMENT')]*angstrom
             self.lig1offset = [float(0.0*offset) for offset in self.displ/angstrom]*angstrom
             self.lig2offset = [float(offset) for offset in self.displ/angstrom]*angstrom
         else:
