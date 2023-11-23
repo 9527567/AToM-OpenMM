@@ -9,6 +9,7 @@ import signal
 import sys
 import time
 from datetime import datetime
+from pathlib import Path
 from sys import stdout
 
 from configobj import ConfigObj
@@ -92,7 +93,7 @@ def do_mintherm(keywords, logger):
     simulation.minimizeEnergy()
     print("Potential energy after minimization =", simulation.context.getState(getEnergy = True).getPotentialEnergy())
 
-    #saves minimization checkpoint
+    #saves minimization checkpoint 能量最小化
     simulation.saveState(jobname + '_min.xml')
     #saves a pdb file
     positions = simulation.context.getState(getPositions=True).getPositions()
@@ -243,6 +244,8 @@ def do_lambda_annealing(keywords, logger):
     number_of_cycles = int(totalSteps/steps_per_cycle)
     deltalambda = (0.5 - 0.0)/float(number_of_cycles)
     simulation.reporters.append(StateDataReporter(stdout, steps_per_cycle, step=True, potentialEnergy = True, temperature=True))
+    if Path(f'{jobname}_mdlambda.xtc').exists():
+        Path(f'{jobname}_mdlambda.xtc').unlink()
     simulation.reporters.append(XTCReporter(jobname + "_mdlambda.xtc", steps_per_cycle))
 
     state = simulation.context.getState(getEnergy = True)
@@ -359,6 +362,8 @@ def do_equil(keywords, logger):
     totalSteps = 150000
     steps_per_cycle = 5000
     simulation.reporters.append(StateDataReporter(stdout, steps_per_cycle, step=True, potentialEnergy = True, temperature=True))
+    if Path(f'{jobname}_0.xtc').exists():
+        Path(f'{jobname}_0.xtc').unlink()
     simulation.reporters.append(XTCReporter(jobname + "_0.xtc", steps_per_cycle))
 
     state = simulation.context.getState(getEnergy = True)
