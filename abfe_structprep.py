@@ -419,8 +419,8 @@ if __name__ == '__main__':
     old_keywords = keywords.copy()
     massage_keywords(keywords, restrain_solutes)
     rerun = True
-    if Path(f'{keywords["JOBNAME"]}_0.xml').exists():
-        with open(Path(f'{keywords["JOBNAME"]}_0.xml'), 'r') as f:
+    if Path(f'{keywords["BASENAME"]}_0.xml').exists():
+        with open(Path(f'{keywords["BASENAME"]}_0.xml'), 'r') as f:
             xml_content = f.read()
         system = XmlSerializer.deserialize(xml_content)
         if system.getStepCount() == 850000:  
