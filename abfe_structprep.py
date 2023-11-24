@@ -418,12 +418,22 @@ if __name__ == '__main__':
     restrain_solutes = True
     old_keywords = keywords.copy()
     massage_keywords(keywords, restrain_solutes)
-    
-    do_mintherm(keywords, logger)
-    do_lambda_annealing(keywords, logger)
+    rerun = True
+    if Path(f'{keywords["JOBNAME"]}_0.xml').exists():
+        with open(Path(f'{keywords["JOBNAME"]}_0.xml'), 'r') as f:
+            xml_content = f.read()
+        system = XmlSerializer.deserialize(xml_content)
+        if system.getStepCount() == 850000:  
+            rerun = False
+    if rerun:   
+        do_mintherm(keywords, logger)
+        do_lambda_annealing(keywords, logger)
 
-    #reestablish the restrained atoms
-    if restrain_solutes:
-        keywords['POS_RESTRAINED_ATOMS'] = old_keywords.get('POS_RESTRAINED_ATOMS') 
 
-    do_equil(keywords, logger)
+        #reestablish the restrained atoms
+        if restrain_solutes:
+            keywords['POS_RESTRAINED_ATOMS'] = old_keywords.get('POS_RESTRAINED_ATOMS') 
+
+        do_equil(keywords, logger)
+    else:
+        print('I have already run, there is no need to run again.')
