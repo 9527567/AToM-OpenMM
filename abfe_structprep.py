@@ -79,6 +79,12 @@ def do_mintherm(keywords, logger):
         platform_name = "CUDA"
     if platform_name == "CUDA" or platform_name == "OpenCL" or platform_name == "HIP":
         platform_properties["Precision"] = "mixed"
+        platform_properties['DeviceIndex'] = ''
+        with open('nodefile', 'r') as f:
+            for line in f:
+                nodeinfo = line.split(',')
+                platform_properties['DeviceIndex'] += nodeinfo[1].split(":")[1] + ','
+        platform_properties['DeviceIndex'] = platform_properties['DeviceIndex'][:-1]
     platform = Platform.getPlatformByName(platform_name)
     
     simulation = Simulation(syst.topology, syst.system, syst.integrator, platform, platform_properties)
@@ -188,6 +194,12 @@ def do_lambda_annealing(keywords, logger):
         platform_name = "CUDA"
     if platform_name == "CUDA" or platform_name == "OpenCL" or platform_name == "HIP":
         platform_properties["Precision"] = "mixed"
+        platform_properties['DeviceIndex'] = ''
+        with open('nodefile', 'r') as f:
+            for line in f:
+                nodeinfo = line.split(',')
+                platform_properties['DeviceIndex'] += nodeinfo[1].split(":")[1] + ','
+        platform_properties['DeviceIndex'] = platform_properties['DeviceIndex'][:-1]
     platform = Platform.getPlatformByName(platform_name)
     
     simulation = Simulation(syst.topology, syst.system, syst.integrator, platform, platform_properties)
@@ -308,6 +320,12 @@ def do_equil(keywords, logger):
         platform_name = "CUDA"
     if platform_name == "CUDA" or platform_name == "OpenCL" or platform_name == "HIP":
         platform_properties["Precision"] = "mixed"
+        platform_properties['DeviceIndex'] = ''
+        with open('nodefile', 'r') as f:
+            for line in f:
+                nodeinfo = line.split(',')
+                platform_properties['DeviceIndex'] += nodeinfo[1].split(":")[1] + ','
+        platform_properties['DeviceIndex'] = platform_properties['DeviceIndex'][:-1]
     platform = Platform.getPlatformByName(platform_name)
     
     simulation = Simulation(syst.topology, syst.system, syst.integrator, platform, platform_properties)
